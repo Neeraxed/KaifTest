@@ -1,19 +1,35 @@
+//using UnityEngine;
+
+//[RequireComponent(typeof(Rigidbody))]
+//public class PlayerForceMovement : MonoBehaviour
+//{
+//    [SerializeField] float moveSpeed;
+//    private Rigidbody rb;
+//    private Vector3 direction;
+
+//    private void Awake()
+//    {        
+//        rb = GetComponent<Rigidbody>();
+//    }
+
+//    private void Update()
+//    {
+//        direction = transform.forward * moveSpeed * Time.deltaTime;
+//        rb.MovePosition(transform.position + direction);
+//    }
+//}
+
+
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerForceMovement : MonoBehaviour
 {
-    private Rigidbody rb;
-    private Vector3 direction;
+    [SerializeField] float moveSpeed;
 
-    private void Awake()
-    {
-        direction = Vector3.forward * 2f * Time.deltaTime;
-        rb = GetComponent<Rigidbody>();
-    }
+    private Vector3 steerDirection;
 
-    private void Update()
+    private void FixedUpdate()
     {
-        //rb.MovePosition(transform.position + direction);
+        transform.position += transform.forward * moveSpeed * Time.deltaTime;
     }
 }

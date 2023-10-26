@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class PlayerTouchMovement : MonoBehaviour
 {
     [SerializeField] private Vector2 JoystickSize = new Vector2(300, 300);
@@ -14,6 +14,8 @@ public class PlayerTouchMovement : MonoBehaviour
 
     private Rigidbody rb;
     private Vector3 moveVector;
+    private float steerDirection;
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
 
@@ -21,9 +23,10 @@ public class PlayerTouchMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
-        Move();
+       // Move();
+        Rotate();
     }
 
     private void Move()
@@ -38,7 +41,16 @@ public class PlayerTouchMovement : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(direction);
         }
 
-        rb.MovePosition(rb.position + moveVector);
+       // rb.MovePosition(rb.position + moveVector);
+    }
+    private void Rotate()
+    {
+        //moveVector = Vector3.zero;
+        //moveVector.x = joystick.Horizontal;
+        //moveVector.z = joystick.Vertical;
+
+        float steerDirection = Input.GetAxis("Horizontal");
+        transform.Rotate(Vector3.up * steerDirection * rotateSpeed * Time.deltaTime) ;
     }
 
     //private void OnEnable()
