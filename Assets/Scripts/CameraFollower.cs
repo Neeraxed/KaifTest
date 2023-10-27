@@ -2,21 +2,28 @@ using UnityEngine;
 
 public class CameraFollower : MonoBehaviour
 {
-    [SerializeField] private GameObject followingObject;
+    [SerializeField] private Transform followingObject;
+    [SerializeField] private Transform GravityAttractor;
 
-    public float smoothTime = 0.3F;
+    [SerializeField] private float smoothTime = 0.3F;
+    [SerializeField] private float distance;
 
-    private Vector3 direction;
-    private Vector3 offset;
+    private Vector3 velocity = Vector3.zero;
+    //private Vector3 direction;
 
     private void Awake()
     {
-        direction = transform.position - followingObject.transform.position;
+        distance = Vector3.Distance(transform.position, followingObject.position);
+        //direction = transform.position - followingObject.transform.position;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
-        transform.position = followingObject.transform.position;
-        transform.LookAt(direction);
+
+        Vector3 targetPosition = followingObject.TransformPoint(new Vector3(0, 2, 0));
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition + (followingObject.up * distance), ref velocity, smoothTime);
+        //transform.position = followingObject.transform.position;
+
+        transform.LookAt(followingObject);
     }
 }

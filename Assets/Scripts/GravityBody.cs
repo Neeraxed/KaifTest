@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class GravityBody : MonoBehaviour
 {
-    public Vector3 diff;
-
     [SerializeField] private Transform gravityTarget;
     [SerializeField] private float gravity = 50f;
 
+    private Vector3 diff;
     private Rigidbody rb;
 
     private void Awake()
@@ -22,7 +21,7 @@ public class GravityBody : MonoBehaviour
     private void ProcessGravity()
     {
         diff = transform.position - gravityTarget.position;
-        rb.AddForce(-diff.normalized * gravity * (rb.mass));
+        rb.AddForce(-diff.normalized * gravity * (rb.mass) * Time.fixedDeltaTime);
         Debug.DrawRay(transform.position, diff.normalized, Color.red);
     }
 }
