@@ -117,7 +117,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
                 else
                     return (value > 0) ? 1 : -1;
             }
-            return value;
+            return angle;
         }
         else
         {

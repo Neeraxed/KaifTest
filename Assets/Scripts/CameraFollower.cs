@@ -6,7 +6,8 @@ public class CameraFollower : MonoBehaviour
     [SerializeField] private Transform GravityAttractor;
 
     [SerializeField] private float smoothTime = 0.3F;
-    [SerializeField] private float distance;
+    
+    private float distance;
 
     private Vector3 velocity = Vector3.zero;
     //private Vector3 direction;
@@ -17,13 +18,24 @@ public class CameraFollower : MonoBehaviour
         //direction = transform.position - followingObject.transform.position;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
 
-        Vector3 targetPosition = followingObject.TransformPoint(new Vector3(0, 2, 0));
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition + (followingObject.up * distance), ref velocity, smoothTime);
-        //transform.position = followingObject.transform.position;
 
-        transform.LookAt(followingObject);
+        //Vector3 targetPosition = followingObject.TransformPoint(new Vector3(0, 2, 0));
+        transform.position = Vector3.SmoothDamp(transform.position, followingObject.position + (followingObject.up * distance), ref velocity, smoothTime);
+        ////transform.position = followingObject.transform.position;
+
+        //transform.LookAt(followingObject);
+        //var vec = followingObject.transform.rotation.eulerAngles;
+        //transform.rotation.SetEulerAngles(vec);
+
+        Vector3 lookDirection = followingObject.position - transform.position;
+        lookDirection.Normalize();
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), smoothTime * Time.deltaTime);
+
+
+        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.y);
     }
 }
